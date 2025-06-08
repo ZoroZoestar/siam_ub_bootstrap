@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIAM UB - Sistem Informasi Akademik Mahasiswa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #00406C;
+            min-height: 100vh;
+        }
+
+        .navbar-custom {
+            background: #005C9B !important;
+            padding: 10px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white !important;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: #003153;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ED8B00;
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link {
+            padding: 8px 15px;
+            background: #fff;
+            color: #005C9B !important;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            background: #d1d1d1;
+            transform: translateY(-1px);
+        }
+
+        .notification-bell {
+            position: relative;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 20px;
+            padding: 8px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .notification-bell:hover {
+            background: rgba(74, 144, 226, 0.1);
+            border-radius: 5px;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4444;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .dropdown-menu {
+            width: 350px;
+            max-height: 400px;
+            overflow-y: auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .dropdown-header {
+            background: #00406C;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .clear-all {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .notification-item {
+            padding: 12px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .notification-item:hover {
+            background: #f8f9fa;
+        }
+
+        .notification-icon {
+            width: 32px;
+            height: 32px;
+            background: #dc3545;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            color: #333;
+            font-size: 13px;
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .notification-time {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .offcanvas-custom {
+            background: rgba(255, 255, 255, 0.95);
+            width: 280px;
+        }
+
+        .offcanvas-header {
+            background: #00406C;
+            color: white;
+        }
+
+        .offcanvas-body .nav-link {
+            color: #333;
+            padding: 12px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+            border-radius: 0;
+        }
+
+        .offcanvas-body .nav-link:hover {
+            background: #4a90e2;
+            color: white;
+            padding-left: 30px;
+        }
+
+        .welcome-banner {
+            background: #fff;
+            color: #00406C;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .student-info-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .student-photo {
+            width: 120px;
+            height: 160px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: #999;
+        }
+
+        .student-details h2 {
+            color: #00406C;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 8px;
+        }
+
+        .detail-label {
+            width: 150px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .detail-value {
+            color: #333;
+        }
+
+        .status-active {
+            background: #28a745;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .quick-link {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .quick-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(74, 144, 226, 0.2);
+        }
+
+        .quick-link-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #4a90e2;
+        }
+
+        .quick-link-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .quick-link-desc {
+            font-size: 12px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-nav .nav-link:not(.dropdown-toggle) {
+                display: none;
+            }
+            
+            .dropdown-menu {
+                width: 320px;
+                right: -20px;
+            }
+            
+            .student-info-card .row {
+                text-align: center;
+            }
+            
+            .detail-row {
+                flex-direction: column;
+                text-align: left;
+                margin-bottom: 12px;
+            }
+            
+            .detail-label {
+                width: auto;
+                font-size: 14px;
+                margin-bottom: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+            <!-- Left side with hamburger and logo -->
+            <div class="d-flex align-items-center">
+                <button class="btn btn-outline-light me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <div class="logo">UB</div>
+                    <div>
+                        <strong style="color: #ED8B00;">SIAM UB</strong><br>
+                        <small style="color: #fff;">Sistem Informasi Akademik</small>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Right side navigation -->
+            <div class="d-flex align-items-center">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex flex-row">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Akademik</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Registrasi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Biodata</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Aplikasi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kemahasiswaan</a>
+                    </li>
+                </ul>
+
+                <!-- Notification Bell -->
+                <div class="dropdown">
+                    <button class="notification-bell" type="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">7</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <div class="dropdown-header">
+                            <h6 class="mb-0">Pengumuman</h6>
+                            <button class="clear-all" onclick="clearNotifications()">Hapus Semua</button>
+                        </div>
+                        <div class="notification-list">
+                            <div class="notification-item" onclick="openNotification('Survey KTM')">
+                                <div class="notification-icon">📊</div>
+                                <div class="notification-content">
+                                    <div class="notification-title">Survey KTM dan Partner Bank Program Sarjana dan Diploma Angkatan 2023 s/d 2025</div>
+                                    <div class="notification-time">2 jam yang lalu</div>
+                                </div>
+                            </div>
+                            <div class="notification-item" onclick="openNotification('Email Mahasiswa')">
+                                <div class="notification-icon">📧</div>
+                                <div class="notification-content">
+                                    <div class="notification-title">Email Mahasiswa - Aktivasi Akun Email Resmi</div>
+                                    <div class="notification-time">5 jam yang lalu</div>
+                                </div>
+                            </div>
+                            <div class="notification-item" onclick="openNotification('Pengumuman Prodi')">
+                                <div class="notification-icon">📢</div>
+                                <div class="notification-content">
+                                    <div class="notification-title">Pengumuman Prodi - Jadwal Konsultasi TA Semester Genap</div>
+                                    <div class="notification-time">1 hari yang lalu</div>
+                                </div>
+                            </div>
+                            <div class="notification-item" onclick="openNotification('Bantuan Keuangan')">
+                                <div class="notification-icon">💰</div>
+                                <div class="notification-content">
+                                    <div class="notification-title">Bantuan Keuangan - Beasiswa KIP Kuliah Gelombang 2</div>
+                                    <div class="notification-time">2 hari yang lalu</div>
+                                </div>
+                            </div>
+                            <div class="notification-item" onclick="openNotification('PDDIKTI')">
+                                <div class="notification-icon">🆔</div>
+                                <div class="notification-content">
+                                    <div class="notification-title">PDDIKTI - Update Data Mahasiswa Semester Ini</div>
+                                    <div class="notification-time">3 hari yang lalu</div>
+                                </div>
+                            </div>
+                            <div class="notification-item" onclick="openNotification('Update Foto KTM')">
+                                <div class="notification-icon">📷</div>
+                                <div class="notification-content">
+                                    <div class="notification-title">Update Foto KTM - Perpanjangan Masa Upload</div>
+                                    <div class="notification-time">1 minggu yang lalu</div>
+                                </div>
+                            </div>
+                            <div class="notification-item" onclick="openNotification('TOEFL ITP')">
+                                <div class="notification-icon">🌐</div>
+                                <div class="notification-content">
+                                    <div class="notification-title">TOEFL ITP - Pendaftaran Tes Bahasa Inggris</div>
+                                    <div class="notification-time">1 minggu yang lalu</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-center" href="#">Lihat Semua Pengumuman</a>
+                    </div>
+                </div>
+
+                <!-- Logout -->
+                <a class="nav-link text-white" href="#" onclick="confirmLogout()">
+                    <i class="fas fa-sign-out-alt me-1"></i>Keluar
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar Offcanvas -->
+    <div class="offcanvas offcanvas-start offcanvas-custom" tabindex="-1" id="sidebarMenu">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Menu Akademik</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="handleMenuClick('Presensi Online')">
+                        <i class="fas fa-bullseye me-2"></i> Presensi Online
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="handleMenuClick('Kartu Rencana Studi')">
+                        <i class="fas fa-clipboard-list me-2"></i> Kartu Rencana Studi
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="handleMenuClick('Kartu Hasil Studi')">
+                        <i class="fas fa-chart-bar me-2"></i> Kartu Hasil Studi
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="handleMenuClick('Jadwal Kuliah')">
+                        <i class="fas fa-calendar me-2"></i> Jadwal Kuliah
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="handleMenuClick('Jadwal Ujian')">
+                        <i class="fas fa-edit me-2"></i> Jadwal Ujian
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="handleMenuClick('Rekap Hasil Studi')">
+                        <i class="fas fa-chart-line me-2"></i> Rekap Hasil Studi
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="handleMenuClick('Tugas Akhir')">
+                        <i class="fas fa-file-alt me-2"></i> Tugas Akhir
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="handleMenuClick('Absensi')">
+                        <i class="fas fa-check me-2"></i> Absensi
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="handleMenuClick('Survey KTM dan Partner Bank')">
+                        <i class="fas fa-clipboard-list me-2"></i> Survey KTM dan Partner Bank
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="handleMenuClick('Email Mahasiswa')">
+                        <i class="fas fa-envelope me-2"></i> Email Mahasiswa
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="handleMenuClick('Pengumuman Prodi')">
+                        <i class="fas fa-bullhorn me-2"></i> Pengumuman Prodi
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="handleMenuClick('Bantuan Keuangan')">
+                        <i class="fas fa-dollar-sign me-2"></i> Bantuan Keuangan
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="handleMenuClick('PDDIKTI')">
+                        <i class="fas fa-id-card me-2"></i> PDDIKTI
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="handleMenuClick('Update Foto KTM')">
+                        <i class="fas fa-camera me-2"></i> Update Foto KTM
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="handleMenuClick('TOEFL ITP')">
+                        <i class="fas fa-globe me-2"></i> TOEFL ITP
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <main class="main-content p-4">
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+                <h1>Selamat Datang di SIAM UB</h1>
+                <p>Sistem Informasi Akademik Mahasiswa Universitas Brawijaya</p>
+            </div>
+
+            <!-- Student Information Card -->
+            <div class="card student-info-card">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-2 text-center">
+                            <div class="student-photo">👤</div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="student-details">
+                                <h2>245150401111030</h2>
+                                <div class="detail-row">
+                                    <span class="detail-label">QOID KAFI</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Jenjang/Fakultas:</span>
+                                    <span class="detail-value">S1/Ilmu Komputer</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Jurusan:</span>
+                                    <span class="detail-value">Sistem Informasi</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Program Studi:</span>
+                                    <span class="detail-value">Sistem Informasi</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Seleksi:</span>
+                                    <span class="detail-value">SELEKSI NASIONAL BERDASARKAN PRESTASI</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Brawijaya - Malang</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Nomor Ujian:</span>
+                                    <span class="detail-value">424000375</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">PDDIKTI KEMDIKBUD:</span>
+                                    <span class="detail-value">Detail</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Status:</span>
+                                    <span class="status-active">AKTIF</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                       <!-- Quick Links -->
+            <div class="container-fluid mt-4">
+                <div class="row g-3">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="card h-100 quick-link-card" onclick="handleQuickLink('Presensi Online')">
+                            <div class="card-body text-center">
+                                <div class="quick-link-icon mb-3">🎯</div>
+                                <h5 class="card-title">Presensi Online</h5>
+                                <p class="card-text">Online Presence</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="card h-100 quick-link-card" onclick="handleQuickLink('Kartu Rencana Studi')">
+                            <div class="card-body text-center">
+                                <div class="quick-link-icon mb-3">📋</div>
+                                <h5 class="card-title">Kartu Rencana Studi</h5>
+                                <p class="card-text">Course Selection Sheet</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="card h-100 quick-link-card" onclick="handleQuickLink('Kartu Hasil Studi')">
+                            <div class="card-body text-center">
+                                <div class="quick-link-icon mb-3">📊</div>
+                                <h5 class="card-title">Kartu Hasil Studi</h5>
+                                <p class="card-text">Course Grades</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="card h-100 quick-link-card" onclick="handleQuickLink('Jadwal Kuliah')">
+                            <div class="card-body text-center">
+                                <div class="quick-link-icon mb-3">📅</div>
+                                <h5 class="card-title">Jadwal Kuliah</h5>
+                                <p class="card-text">Course Schedule</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="card h-100 quick-link-card" onclick="handleQuickLink('Jadwal Ujian')">
+                            <div class="card-body text-center">
+                                <div class="quick-link-icon mb-3">📝</div>
+                                <h5 class="card-title">Jadwal Ujian</h5>
+                                <p class="card-text">Exam Schedule</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="card h-100 quick-link-card" onclick="handleQuickLink('Tugas Akhir')">
+                            <div class="card-body text-center">
+                                <div class="quick-link-icon mb-3">📑</div>
+                                <h5 class="card-title">Tugas Akhir</h5>
+                                <p class="card-text">Thesis</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function clearNotifications() {
+            if (confirm('Hapus semua notifikasi?')) {
+                document.querySelector('.notification-badge').textContent = '0';
+                document.querySelector('.notification-list').innerHTML = 
+                    '<div style="padding: 20px; text-align: center; color: #666;">Tidak ada notifikasi</div>';
+            }
+        }
+
+        function openNotification(title) {
+            alert('Membuka: ' + title);
+            // Close dropdown
+            const dropdown = bootstrap.Dropdown.getInstance(document.querySelector('.notification-bell'));
+            if (dropdown) dropdown.hide();
+        }
+
+        function handleMenuClick(menuName) {
+            alert('Menu "' + menuName + '" diklik!');
+            // Close offcanvas
+            const offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('sidebarMenu'));
+            if (offcanvas) offcanvas.hide();
+        }
+
+        function handleQuickLink(linkName) {
+            alert('Quick link "' + linkName + '" diklik!');
+        }
+
+        function confirmLogout() {
+            if (confirm('Apakah Anda yakin ingin keluar?')) {
+                alert('Anda telah keluar dari sistem');
+            }
+        }
+
+        // Add click handlers for top nav items
+        document.querySelectorAll('.navbar-nav .nav-link').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const menuName = this.textContent.trim();
+                if (!menuName.includes('Keluar')) {
+                    alert('Menu "' + menuName + '" diklik!');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
